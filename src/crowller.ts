@@ -37,7 +37,7 @@ class Crowller {
     getCourseInfo(html:string){
         const $ = cheerio.load(html);
         const courseItems = $('.note-list li');
-        let courseInfos:Course[] = []
+        let courseInfos:Course[] = [];
         courseItems.map((index,element)=>{
             const title = $(element).find('.title').text();
             const abstract = $(element).find('.abstract').text();
