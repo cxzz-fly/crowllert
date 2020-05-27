@@ -20,7 +20,15 @@ interface Content {
 }
 
 export default class handAnalyzer implements Analyzer {
-    getCourseInfo(html:string){
+    private static instance:handAnalyzer;
+    static getInstance(){
+        if(!handAnalyzer.instance){
+            handAnalyzer.instance = new handAnalyzer()
+        }
+        return handAnalyzer.instance ;  
+    }
+
+    private getCourseInfo(html:string){
         const $ = cheerio.load(html);
         const courseItems = $('.note-list li');
         let courseInfos:Course[] = [];
@@ -42,7 +50,7 @@ export default class handAnalyzer implements Analyzer {
         return result
     }
     
-    generateJsonContent(filePath:string,courseInfo:CourseInfo){
+    private generateJsonContent(filePath:string,courseInfo:CourseInfo){
         let fileContent:Content = {}
         let a:Content = {}
         if(fs.existsSync(filePath)){
@@ -56,5 +64,7 @@ export default class handAnalyzer implements Analyzer {
         const cont = this.generateJsonContent(filePath,courseInfo)
         return JSON.stringify(cont);
     }
+    
+    private constructor(){}
 }
 

@@ -11,7 +11,7 @@ class Crowller {
     writeFile(content: string) {
         fs.writeFileSync(this.filePath, content);
     }
-    async getRawHtml() {
+    private async getRawHtml() {
         return new Promise<string>((resolve, reject) => {
             request.get(this.url)
                 .end(function (err, res) {
@@ -19,7 +19,7 @@ class Crowller {
                 })
         })
     }
-    async init() {
+    private async init() {
         const html = await this.getRawHtml();
         const analyzerCont = analyzer.analyze(html,this.filePath)
         fs.writeFileSync(this.filePath, analyzerCont);
@@ -30,6 +30,6 @@ class Crowller {
 }
 
 const url = `https://www.jianshu.com/`;
-const analyzer = new handAnalyzer();
+const analyzer = handAnalyzer.getInstance();
 
 new Crowller(url,analyzer)
